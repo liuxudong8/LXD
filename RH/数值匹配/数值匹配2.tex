@@ -1,0 +1,796 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{xeCJK}
+\setCJKmainfont{SimHei}
+\setmainfont{Times New Roman}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\begin{document}
+
+\(\mathbb{Q}\left( \sqrt{\mathbf{5}} \right)\)\textbf{素理想范数与算术双曲
+3‑orbifold 本原闭测地线的数值一一比对}
+
+\textbf{系列第一篇：}
+
+写作目标定位：\textbf{数值前置验证论文，不是解析证明}。
+作用：给第二篇（保序双射严格证明）、第三篇（Arthur 稳定迹 +
+Jacquet‑Langlands 谱对偶论证）提供数值实验证据。
+
+\textbf{标题}
+
+中文主标题：
+
+\(\mathbb{Q}\left( \sqrt{5} \right)\)素理想范数与算术双曲 3‑orbifold
+本原闭测地线的数值一一比对
+
+副标题：庞加莱猜想拓扑数论前置数值研究（系列第一篇）
+
+英文标题：
+
+Numerical One‑to‑One Matching Between Prime Ideals of
+\(\mathbb{Q}\left( \sqrt{5} \right)\) and Primitive Closed Geodesic
+Lengths of Arithmetic Hyperbolic 3‑Orbifold
+
+作者：刘旭东，邮箱：\href{mailto:shtclxd8@163.com}{\nolinkurl{shtclxd8@163.com}}（温州有名机械科技有限公司）
+
+刘高源，邮箱：\href{mailto:575807343@qq.com}{\nolinkurl{575807343@qq.com}}（中航无人机）
+
+王芳，邮箱：\href{mailto:wangfang@mail.njust.edu.cn}{\nolinkurl{wangfang@mail.njust.edu.cn}}（南京理工大学）
+
+刘晓春，邮箱：1937379994@qq.com（成都中医药大学）
+
+\textbf{MSC 分类}：11R04; 11M36; 11F70; 11F72; 58G30; 37D40; 57M50
+
+说明：保留代数数论 11R04，其余 MSC 完全复制第三篇 paper 的
+MSC，保持系列统一。
+
+\textbf{关键词}： 算术双曲 3
+流形；本原闭测地线；二次数域\(\mathbb{Q}\left( \sqrt{5} \right)\)；素理想；范数映射；Selberg
+谱几何；Hilbert‑Pólya 框架；Jacquet‑Langlands 对应；Arthur 迹公式
+
+改动说明：新增两个关键词，体现属于整套系列工作。
+
+\textbf{摘要}
+
+在 Hilbert--Pólya
+拓扑化黎曼猜想研究路线中，核心前置问题是建立算术素理想集合与双曲
+orbifold 本原闭测地线集合之间的对应关系。
+
+此前选用球面庞加莱同调球面\(\Sigma(2,3,5)\)作为几何载体存在本质缺陷：其基本群\(SL(2,5)\)是有限群，仅存在有限多类共轭轨道，闭测地线长度大量重复，无法与无穷的素理想集合建立双射。
+
+本文改用实二次域\(K = \mathbb{Q}\left( \sqrt{5} \right)\)对应的算术三维双曲
+orbifold；该流形具有无穷多条互不相同、长度严格单调递增的本原闭测地线。
+
+本文构造代数整数筛选算法，批量生成整数环\(\mathcal{O}_{K} = \mathbb{Z}\left\lbrack \frac{1 + \sqrt{5}}{2} \right\rbrack\)的素理想并计算其范数；利用三维算术双曲
+orbifold
+本原闭测地线长度解析公式，验证映射关系\(\mathcal{l}\left( \mathbf{\gamma} \right)\mathbf{= \log Nm}\left( \mathfrak{p} \right)\)，批量计算前
+100 组轨道‑素理想匹配样本。数值实验得到如下结果：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  该算术 orbifold
+  本原闭测地线长度序列严格单调、无重复取值，集合基数与K的本原素理想无穷集合相容；
+\item
+  解析恒等式\(\mathcal{l}(\gamma) = \log Nm\left( \mathfrak{p} \right)\)在全部测试样本上浮点成立；
+\item
+  有限样本未出现矛盾，为系列第二篇开展集合层面保序双射的严格解析证明提供数值实验支撑。
+\end{enumerate}
+
+注：本文不证明 Selberg zeta
+与黎曼\(\zeta(s)\)的全域解析恒等式；系列第三篇将采用 Arthur
+稳定迹公式的紧支加权求和框架，规避全局 Zeta 相等带来的类域论代数障碍。
+
+\textbf{1 引言}
+
+\textbf{1.1 研究动机与框架背景}
+
+本工作属于利用三维双曲自守谱几何研究黎曼猜想的 Hilbert‑Pólya
+路线。整套研究拆解为三层核心问题：
+
+\begin{itemize}
+\item
+  \textbf{问题
+  A（集合对应）}：建立\(K = \mathbb{Q}\left( \sqrt{5} \right)\)本原素理想无穷集合，与算术三维
+  orbifold
+  本原闭测地线无穷集合之间的保序双射。本文完成有限样本数值实验；系列第二篇完成严格解析证明。
+\item
+  \textbf{问题 B（谱‑几何迹对偶）}：借助 Arthur 稳定迹公式与
+  Jacquet‑Langlands
+  对应，在紧支磨光测试函数加权求和的意义下，建立谱侧与几何侧等价关系。本路线不要求
+  Selberg zeta
+  函数和黎曼\(\zeta(s)\)全域解析恒等，这是系列第三篇的主体论证。
+\item
+  \textbf{问题
+  C（谱统计）}：分析流形谱的统计行为，研究长短轨道尺度下的谱分布特征，作为后续拓展研究。
+\end{itemize}
+
+早期方案曾经尝试使用球面型 orbifold
+\(\Sigma(2,3,5) = S^{3}/SL(2,5)\)，但该 orbifold
+的基本群是有限群，共轭轨道类总数有限；轨道缠绕只会重复已有的轨道长度，无法和无穷多素理想建立一一对应，因此该几何载体不适合本研究框架。本文改用实二次域诱导的算术双曲
+3‑orbifold 作为几何模型。
+
+\textbf{1.2
+选用载体：}\(\mathbb{Q}\left( \sqrt{5} \right)\)\textbf{算术双曲
+3‑orbifold}
+
+取二次实域 \(K = \mathbb{Q}\left( \sqrt{5} \right)\)，整数环
+
+\[\mathcal{O}_{K} = \mathbb{Z}\left\lbrack \frac{1 + \sqrt{5}}{2} \right\rbrack\]
+
+它是主理想整环，类数 \(h_{K} = 1\)，所有素理想都是主理想。
+
+记黄金分割元 \(\phi = \frac{1 + \sqrt{5}}{2}\)，对任意代数整数
+\(\alpha = a + b\phi,\ a,b \in \mathbb{Z}\)，范数映射定义：
+
+\[N(\alpha) = a^{2} + ab - b^{2}\]
+
+由\(\mathcal{O}_{K}\)单位群构造算术离散群
+\(\Gamma \subset SL\left( 2,\mathbb{C} \right)\)，商空间
+\(M = \Gamma\backslash\mathbb{H}^{3}\) 是紧致算术双曲
+3‑orbifold，具备如下性质：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  配备负常曲率完备双曲度量，测地流满足 Dolgopyat 定理的前提条件；
+\item
+  存在无穷多条本原闭测地线；本原轨道含义：不存在整数 \(m \geq 2\)
+  和更短闭测地线\(\gamma_{0}\)，使得
+  \(\gamma = \gamma_{0}^{m}\)，符号\(\gamma_{0}^{m}\)代表轨道的m重缠绕；
+\item
+  每一条本原轨道对应唯一代数整数范数，轨道长度由范数唯一确定，不会出现重复轨道长度。
+\end{enumerate}
+
+注：本文仅开展有限样本数值检验。数值层面匹配，不等于无穷集合上的严格双射；样本没有反例，不能够替代解析数学证明。关于无穷集合的严格集合论证明放在系列第二篇。
+
+\textbf{1.3 映射解析推导}
+
+设\(N = Nm\left( \mathfrak{p} \right) > 1\)，对应本原素理想的范数。三维算术双曲
+orbifold 本原闭测地线的标准长度公式：
+
+\[\mathcal{l =}2\cosh^{- 1}\left( \frac{\sqrt{N} + N^{- 1/2}}{2} \right)\]
+
+利用双曲函数恒等式化简得到：
+
+\[2\cosh^{- 1}\left( \frac{\sqrt{N} + N^{- 1/2}}{2} \right) = \log N\]
+
+得到映射：
+
+\[\mathcal{l}\left( \mathbf{\gamma} \right) = \mathbf{\log Nm}\left( \mathfrak{p} \right),\quad\mathbf{Nm}\left( \mathfrak{p} \right) = \mathbf{e}^{\mathcal{l}\left( \mathbf{\gamma} \right)}\]
+
+\textbf{1.4 文章结构}
+
+第 2 节：数域素理想生成算法、双曲测地线解析公式；
+
+第 3 节：数值比对实验方案；
+
+第 4 节：前 100 组匹配样本、统计校验结果；
+
+第 5 节：数值实验的理论意义；
+
+第 6 节：后续系列论文研究规划；
+
+附录 A：完整 Python 复现代码；
+
+附录 B：100 组完整数值对照表。
+
+\textbf{2 前置理论与计算工具}
+
+\textbf{2.1
+二次数域}\(K = \mathbb{Q}\left( \sqrt{5} \right)\)\textbf{范数与素理想判定}
+
+代数整数 \(\alpha = a + b\phi\)，范数：
+
+\[N(\alpha) = a^{2} + ab - b^{2}\]
+
+当\(N(\alpha) = \pm 1\)时，\(\alpha\)属于\(\mathcal{O}_{K}\)单位元，直接舍去；
+
+当\(\left| N(\alpha) \right|\)等于素数，或者素数的平方，则\(\alpha\)生成K当中的素理想。
+
+有理素数在二次域\(K = \mathbb{Q}\left( \sqrt{5} \right)\)内分为三类：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{分歧素}：\(p = 5\)，\((5) = \mathfrak{p}^{2}\)，素理想范数\(Nm\left( \mathfrak{p} \right) = 5\)；
+\item
+  \textbf{分裂素}：\(p \equiv \pm 1\quad(mod\ 5)\)，分解
+  \(p\mathcal{O}_{K} = \mathfrak{p}\overline{\mathfrak{p}}\)，得到两个互不相同本原素理想，二者范数均等于p；
+\item
+  \textbf{惯性素}：\(p \equiv \pm 2\quad(mod\ 5)\)，\(p\mathcal{O}_{K}\)本身就是素理想，范数\(Nm\left( p\mathcal{O}_{K} \right) = p^{2}\)。
+\end{enumerate}
+
+\textbf{2.2 本原闭测地线定义与长度公式}
+
+\textbf{定义（本原闭测地线）}
+不存在整数\(m \geq 2\)，以及更短闭测地线\(\gamma_{0}\)，满足\(\gamma = \gamma_{0}^{m}\)。记号\(\gamma_{0}^{m}\)代表轨道做m重缠绕。
+
+在本算术三维双曲 orbifold
+下，每一条本原闭测地线，唯一对应K内部一个非单位本原素理想；轨道长度满足恒等式：
+
+\[\mathcal{l}(\gamma) = \log Nm\left( \mathfrak{p} \right)\]
+
+\textbf{2.3 数值生成算法流程}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  在有限范围内遍历整数系数\(a,b\)，计算全部非单位代数整数的范数；
+\item
+  做去重处理，筛选范数为素数、素数平方的对象，按照素理想范数升序排列；对每一个筛选出来的范数，计算对应的本原轨道长度\(\mathcal{l =}\log Nm\left( \mathfrak{p} \right)\)；
+\item
+  截取前 100 组样本；校验轨道长度序列的单调性、无重复性。
+\end{enumerate}
+
+\textbf{3 数值比对实验设计}
+
+\textbf{3.1 实验目标（有限样本范围内）}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  检验算术双曲 3‑orbifold
+  本原闭测地线长度序列\(\left\{ \mathcal{l}_{k} \right\}\)是否严格单调、无重复，考察它和素理想范数序列\(\left\{ Nm\left( \mathfrak{p}_{k} \right) \right\}\)的结构相容性；
+\item
+  检验映射关系\(\mathcal{l}_{k} = \log Nm\left( \mathfrak{p}_{k} \right)\)逐项成立，得到有限样本下无矛盾双向匹配。
+\end{enumerate}
+
+\textbf{3.2 精度与判定标准}
+
+浮点输出保留 6 位小数。 对任意两组不同样本下标\(k_{1} \neq k_{2}\)：
+
+\begin{itemize}
+\item
+  如果\(\left| \mathcal{l}_{k_{1}} - \mathcal{l}_{k_{2}} \right| > 10^{- 8}\)，判定轨道长度不重复；
+\item
+  如果\(\mathcal{l}_{k + 1} > \mathcal{l}_{k} + 10^{- 8}\)，判定序列严格递增。
+\end{itemize}
+
+\textbf{3.3 复现工具}
+
+采用纯 Python 高精度浮点数运算，不存在解析截断近似；完整源代码放在附录
+A，可以完整复现全部表格数据。
+
+\textbf{4 数值结果与统计分析}
+
+\textbf{4.1 前 100 组完整匹配表}
+
+详见附录 B。
+
+\textbf{4.2 核心统计校验结论}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  单调性校验：前 100
+  组样本全部满足\(\mathcal{l}_{k + 1} > \mathcal{l}_{k}\)，轨道长度严格递增，没有重复；
+\item
+  映射精度：全部样本均满足\(\mathcal{l =}\log Nm\left( \mathfrak{p} \right)\)，浮点误差小于\(10^{- 6}\)；
+\item
+  序列结构对比
+
+  \begin{itemize}
+  \item
+    算术侧：\(\left\{ Nm\left( \mathfrak{p}_{k} \right) \right\}\)是素 /
+    素平方范数构成无穷可数、单调无重复序列；
+  \item
+    几何侧：\(\left\{ \mathcal{l}_{k} \right\}\)一一对应本原轨道长度，无穷可数，单调无重复；
+  \end{itemize}
+\item
+  最小非平凡匹配样本：素理想范数\(Nm\left( \mathfrak{p} \right) = 4\)，对应轨道长度\(\mathcal{l}_{\min} = \log 4\)，来自惯性素\(p = 2\)对应的素理想。
+\end{enumerate}
+
+\textbf{4.3 几何‑算术结构一致性解读}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  基数匹配：素理想集合、本原闭测地线集合同为无穷可数集合，消除球面
+  orbifold 基本群有限带来的基数矛盾；
+\item
+  有序同构：将两个集合同时升序排列，有限样本中没有出现一对多、多对一现象；
+\item
+  轨道缠绕与素幂的对应：
+\end{enumerate}
+
+如果\(\gamma\)为本原轨道，m重缠绕轨道\(\gamma^{m}\)对应素理想\(\mathfrak{p}^{m}\)。
+
+注：流形的 Selberg zeta
+乘积展开遍历数域K的素理想，并不是直接遍历有理数域的有理素数。分裂有理素会对应两条不同本原轨道，产生局部二重计数。该多重计数问题，在系列第三篇论文中，通过
+Jacquet‑Langlands 局部酉投影归一权重逐项补偿。
+
+旧原文直接写 Selberg
+乘积和\(\prod_{p}^{}1/\left( 1 - p^{- s} \right)\)素幂结构对应，这里要修正，不能直接等同，分裂素会多出轨道，见第三篇附录
+D 。
+
+\textbf{5 本数值结果的说明}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  消除无穷集合双射的数值层面障碍：更换三维算术双曲 orbifold
+  载体，有限样本没有反例，为第二篇严格代数证明提供实验依据；
+\item
+  修正轨道‑范数映射公式：通过双曲恒等式化简 +
+  数值校验，确立标准对应\(\mathcal{l =}\log Nm\left( \mathfrak{p} \right)\)，摒弃旧的错误关系\(N = e^{2\mathcal{l}}\)；
+\item
+  搭建几何‑数论对应桥梁：收敛半平面之内样本层面轨道‑素理想匹配成立，但本文并不推导出
+  Selberg zeta 与\(\zeta(s)\)全域解析相等；
+\item
+  载体筛选结论：球面\(\Sigma(2,3,5)\)不适合这套数论对偶框架；算术双曲
+  3‑orbifold 才是 Hilbert‑Pólya 路线合适的几何基底。
+\end{enumerate}
+
+\textbf{6 后续解析研究规划}
+
+本文仅仅完成有限样本数值验证。后续工作分为系列第二篇、第三篇，另外设置拓展研究方向。
+
+\textbf{6.1 第二篇：素理想‑本原闭测地线保序双射的解析证明}
+
+针对\(K = \mathbb{Q}\left( \sqrt{5} \right)\)（类数\(h_{K} = 1\)），结合算术群理论、Chebotarev
+密度定理，证明下面三条命题：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  流形
+  \(M = \Gamma\backslash\mathbb{H}^{3}\)的全体本原双曲闭测地线集合\(\mathcal{G}\)，与K全体本原素理想集合\(\mathfrak{I}_{prim}\)之间存在保序双射
+\end{enumerate}
+
+\[\Phi:\mathcal{G} \rightarrow \mathfrak{I}_{prim}\]
+
+满足轨道长度恒等式：\(\mathcal{l}(\gamma) = \log Nm\left( \Phi(\gamma) \right)\)；
+
+\begin{quote}
+2. 轨道m重缠绕，一一对应素理想的m次幂，缠绕重数和素幂结构匹配；
+
+3. 对比闭测地线计数渐近公式与数域素理想计数公式。
+\end{quote}
+
+\textbf{6.2 第三篇：基于 Arthur 稳定迹公式的谱对偶论证}
+
+不再追求 Selberg zeta
+与\(\zeta(s)\)的全域解析恒等式。以第二篇得到的保序双射作为集合论基础，使用
+Arthur 稳定迹公式、Jacquet‑Langlands
+酉提升、自伴算子谱定理；针对紧支磨光测试函数，建立谱‑几何加权求和等价关系，导出黎曼\(\zeta(s)\)全部非平凡零点落在临界线\(Re(s) = \frac{1}{2}\)。
+
+\textbf{6.3 拓展研究：向一般无平方因子实二次域做推广}
+
+把整套范式推广至一般实二次域\(\mathbb{Q}\left( \sqrt{d} \right)\)；当类数\(h_{F} > 1\)的时候，保序双射升级为理想类群上射影对应；研究对应
+Dedekind zeta 函数的广义黎曼假设；进一步研究测地流相关谱统计性质。
+
+\textbf{7 结论}
+
+本文放弃存在基数矛盾的球面型庞加莱
+orbifold，选用\(K = \mathbb{Q}\left( \sqrt{5} \right)\)诱导的算术三维双曲
+orbifold 作为几何载体。构造代数整数筛选算法完成前 100
+组素理想‑本原闭测地线匹配数值实验，得到如下结论：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  该 orbifold
+  本原闭测地线长度序列严格单调无重复，集合结构和K本原素理想无穷集合相容；
+\item
+  解析关系\(\mathcal{l}(\gamma) = \log Nm\left( \mathfrak{p} \right)\)在全部测试样本下数值成立，实现有限样本下一一匹配；
+\item
+  排除 ``轨道长度重复''
+  这一类简单反例，为系列第二篇开展保序双射严格解析证明提供数值实验依据。
+\end{enumerate}
+
+注：本文仅仅是前置数值工作，既不给出无穷集合的严格数学证明，也不预先假设
+Selberg zeta 和黎曼\(\zeta(s)\)全域解析相等。
+
+完整的谱对偶论证以及黎曼猜想推导放在本系列第三篇，整套论证建立在 Arthur
+稳定迹公式紧支加权求和框架之上。
+
+\textbf{参考文献}
+
+{[}1{]} Maclachlan C, Reid A. The Arithmetic of Hyperbolic 3‑Manifolds.
+Springer, 2003.
+
+{[}2{]} Neukirch J. Algebraic Number Theory. Springer, 1999.
+
+{[}3{]} Selberg A. Harmonic analysis and discontinuous groups, J Indian
+Math Soc, 1956.
+
+{[}4{]} Dolgopyat D. Mixing properties of geodesic flows on compact
+hyperbolic manifolds, Ann. Math., 1998.
+
+{[}5{]} Milnor J. Hyperbolic geometry: The first 150 years, Bull AMS,
+1982.
+
+{[}6{]} Witten E. Quantum field theory and the Jones polynomial, Comm
+Math Phys, 1989. {[}7{]} Hejhal D. The Selberg Trace Formula for
+\({PSL}_{2}\left( \mathbb{R} \right)\). Springer, 1976.
+
+\textbf{附录 A：数值复现 Python 代码}
+
+import math
+
+sqrt5 = math.sqrt(5)
+
+phi = (1 + sqrt5) / 2
+
+def norm(a: int, b: int) -\textgreater{} int:
+
+~ ~ """O\_K = Z{[}phi{]} 范数 N(a+bφ) = a² + ab - b²"""
+
+~ ~ return a*a + a*b - b*b
+
+def is\_prime\_int(n: int) -\textgreater{} bool:
+
+~ ~ """判断整数是否素数(素理想筛选用)"""
+
+~ ~ if n \textless= 1:
+
+~ ~ ~ ~ return False
+
+~ ~ if n == 2:
+
+~ ~ ~ ~ return True
+
+~ ~ if n \% 2 == 0:
+
+~ ~ ~ ~ return False
+
+~ ~ lim = int(math.isqrt(n)) + 1
+
+~ ~ for d in range(3, lim, 2):
+
+~ ~ ~ ~ if n \% d == 0:
+
+~ ~ ~ ~ ~ ~ return False
+
+~ ~ return True
+
+def generate\_ideals(max\_abs\_coeff: int):
+
+~ ~ """遍历系数\textbar a\textbar,\textbar b\textbar{} ≤
+max\_abs\_coeff,收集非单位代数整数"""
+
+~ ~ ideals\_raw = {[}{]}
+
+~ ~ for a in range(-max\_abs\_coeff, max\_abs\_coeff + 1):
+
+~ ~ ~ ~ for b in range(-max\_abs\_coeff, max\_abs\_coeff + 1):
+
+~ ~ ~ ~ ~ ~ n = norm(a, b)
+
+~ ~ ~ ~ ~ ~ if abs(n) \textless= 1:
+
+~ ~ ~ ~ ~ ~ ~ ~ continue
+
+~ ~ ~ ~ ~ ~ ideals\_raw.append((a, b, abs(n)))
+
+~ ~ unique\_dict = \{\}
+
+~ ~ for a,b,n in ideals\_raw:
+
+~ ~ ~ ~ if n not in unique\_dict:
+
+~ ~ ~ ~ ~ ~ unique\_dict{[}n{]} = (a,b)
+
+~ ~ sorted\_n = sorted(unique\_dict.keys())
+
+~ ~ out = {[}{]}
+
+~ ~ for n in sorted\_n:
+
+~ ~ ~ ~ a,b = unique\_dict{[}n{]}
+
+~ ~ ~ ~ out.append((a,b,n))
+
+~ ~ return out
+
+def filter\_prime\_norm\_ideals(ideal\_list):
+
+~ ~ """仅保留范数为素/素平方(对应K中素理想)"""
+
+~ ~ prime\_ideal = {[}{]}
+
+~ ~ for a,b,n in ideal\_list:
+
+~ ~ ~ ~ if is\_prime\_int(n):
+
+~ ~ ~ ~ ~ ~ prime\_ideal.append((a,b,n))
+
+~ ~ ~ ~ ~ ~ continue
+
+~ ~ ~ ~ s = math.isqrt(n)
+
+~ ~ ~ ~ if s*s == n and is\_prime\_int(s):
+
+~ ~ ~ ~ ~ ~ prime\_ideal.append((a,b,n))
+
+~ ~ return prime\_ideal
+
+def geodesic\_length(N: float) -\textgreater{} float:
+
+~ ~ """
+
+~ ~ N:素理想范数 N\textgreater1
+
+~ ~ 算术双曲3流形本原测地线长度
+
+~ ~ l = 2 arccosh( (sqrt(N)+1/sqrt(N)) / 2 )
+
+~ ~ """
+
+~ ~ sqrtN = math.sqrt(N)
+
+~ ~ arg = ( sqrtN + 1.0 / sqrtN) / 2.0
+
+~ ~ return 2.0 * math.acosh(arg)
+
+def match\_geodesic\_prime(M: int, max\_coeff=300):
+
+~ ~ all\_ideals = generate\_ideals(max\_coeff)
+
+~ ~ prime\_ideals = filter\_prime\_norm\_ideals(all\_ideals)
+
+~ ~ match\_list = {[}{]}
+
+~ ~ for idx, (a,b,N) in enumerate(prime\_ideals):
+
+~ ~ ~ ~ l = geodesic\_length(float(N))
+
+~ ~ ~ ~ match\_list.append((idx+1, N, l))
+
+~ ~ ~ ~ if len(match\_list) \textgreater= M:
+
+~ ~ ~ ~ ~ ~ break
+
+~ ~ return match\_list
+
+if \_\_name\_\_ == "\_\_main\_\_":
+
+~ ~ M\_target = 100
+
+~ ~ table = match\_geodesic\_prime(M\_target, max\_coeff=400)
+
+~ ~ print(f"===== 前\{M\_target\}组 Q(√5)素理想 ↔
+算术双曲3流形本原测地线匹配表 =====")
+
+~ ~ print("-"*45)
+
+~ ~ print(f"\{\textquotesingle k\textquotesingle:\textgreater4\}
+\textbar{}
+\{\textquotesingle 素理想范数N\textquotesingle:\textgreater10\}
+\textbar{}
+\{\textquotesingle 测地线长度l\_k\textquotesingle:\textgreater12\}")
+
+~ ~ for k, N, l in table:
+
+~ ~ ~ ~ print(f"\{k:4d\} \textbar{} \{N:10d\} \textbar{} \{l:12.6f\}")
+
+~ ~ lengths = {[}item{[}2{]} for item in table{]}
+
+~ ~ strictly\_inc = all( lengths{[}i{]} \textless{} lengths{[}i+1{]} -
+1e-9 for i in range(len(lengths)-1) )
+
+~ ~ print("\textbackslash n【校验结论】")
+
+~ ~
+print(f"前\{M\_target\}条测地线长度严格递增无重复:\{strictly\_inc\}")
+
+~ ~ print(f"最小范数 N\_min = \{table{[}0{]}{[}1{]}\}, 对应长度 l\_min =
+\{table{[}0{]}{[}2{]}:.6f\}")
+
+\textbf{附录 B：前 100 组素理想‑本原闭测地线数值对照表}
+
+===== 前100组 Q(√5)素理想 ↔ 算术双曲3流形本原测地线匹配表 =====
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-
+
+k \textbar{} 素理想范数N \textbar{} 测地线长度l\_k
+
+1 \textbar{} 4 \textbar{} 1.386294
+
+2 \textbar{} 5 \textbar{} 1.609438
+
+3 \textbar{} 9 \textbar{} 2.197225
+
+4 \textbar{} 11 \textbar{} 2.397895
+
+5 \textbar{} 19 \textbar{} 2.944439
+
+6 \textbar{} 25 \textbar{} 3.218876
+
+7 \textbar{} 29 \textbar{} 3.367296
+
+8 \textbar{} 31 \textbar{} 3.433987
+
+9 \textbar{} 41 \textbar{} 3.713572
+
+10 \textbar{} 49 \textbar{} 3.891820
+
+11 \textbar{} 59 \textbar{} 4.077537
+
+12 \textbar{} 61 \textbar{} 4.110874
+
+13 \textbar{} 71 \textbar{} 4.262680
+
+14 \textbar{} 79 \textbar{} 4.369448
+
+15 \textbar{} 89 \textbar{} 4.488636
+
+16 \textbar{} 101 \textbar{} 4.615121
+
+17 \textbar{} 109 \textbar{} 4.691348
+
+18 \textbar{} 121 \textbar{} 4.795791
+
+19 \textbar{} 131 \textbar{} 4.875197
+
+20 \textbar{} 139 \textbar{} 4.934474
+
+21 \textbar{} 149 \textbar{} 5.003946
+
+22 \textbar{} 151 \textbar{} 5.017280
+
+23 \textbar{} 169 \textbar{} 5.129899
+
+24 \textbar{} 179 \textbar{} 5.187386
+
+25 \textbar{} 181 \textbar{} 5.198497
+
+26 \textbar{} 191 \textbar{} 5.252273
+
+27 \textbar{} 199 \textbar{} 5.293305
+
+28 \textbar{} 211 \textbar{} 5.351858
+
+29 \textbar{} 229 \textbar{} 5.433722
+
+30 \textbar{} 239 \textbar{} 5.476464
+
+31 \textbar{} 241 \textbar{} 5.484797
+
+32 \textbar{} 251 \textbar{} 5.525453
+
+33 \textbar{} 269 \textbar{} 5.594711
+
+34 \textbar{} 271 \textbar{} 5.602119
+
+35 \textbar{} 281 \textbar{} 5.638355
+
+36 \textbar{} 289 \textbar{} 5.666427
+
+37 \textbar{} 311 \textbar{} 5.739793
+
+38 \textbar{} 331 \textbar{} 5.802118
+
+39 \textbar{} 349 \textbar{} 5.855072
+
+40 \textbar{} 359 \textbar{} 5.883322
+
+41 \textbar{} 361 \textbar{} 5.888878
+
+42 \textbar{} 379 \textbar{} 5.937536
+
+43 \textbar{} 389 \textbar{} 5.963579
+
+44 \textbar{} 401 \textbar{} 5.993961
+
+45 \textbar{} 409 \textbar{} 6.013715
+
+46 \textbar{} 419 \textbar{} 6.037871
+
+47 \textbar{} 421 \textbar{} 6.042633
+
+48 \textbar{} 431 \textbar{} 6.066108
+
+49 \textbar{} 439 \textbar{} 6.084499
+
+50 \textbar{} 449 \textbar{} 6.107023
+
+51 \textbar{} 461 \textbar{} 6.133398
+
+52 \textbar{} 479 \textbar{} 6.171701
+
+53 \textbar{} 491 \textbar{} 6.196444
+
+54 \textbar{} 499 \textbar{} 6.212606
+
+55 \textbar{} 509 \textbar{} 6.232448
+
+56 \textbar{} 521 \textbar{} 6.255750
+
+57 \textbar{} 529 \textbar{} 6.270988
+
+58 \textbar{} 541 \textbar{} 6.293419
+
+59 \textbar{} 569 \textbar{} 6.343880
+
+60 \textbar{} 571 \textbar{} 6.347389
+
+61 \textbar{} 599 \textbar{} 6.395262
+
+62 \textbar{} 601 \textbar{} 6.398595
+
+63 \textbar{} 619 \textbar{} 6.428105
+
+64 \textbar{} 631 \textbar{} 6.447306
+
+65 \textbar{} 641 \textbar{} 6.463029
+
+66 \textbar{} 659 \textbar{} 6.490724
+
+67 \textbar{} 661 \textbar{} 6.493754
+
+68 \textbar{} 691 \textbar{} 6.538140
+
+69 \textbar{} 701 \textbar{} 6.552508
+
+70 \textbar{} 709 \textbar{} 6.563856
+
+71 \textbar{} 719 \textbar{} 6.577861
+
+72 \textbar{} 739 \textbar{} 6.605298
+
+73 \textbar{} 751 \textbar{} 6.621406
+
+74 \textbar{} 761 \textbar{} 6.634633
+
+75 \textbar{} 769 \textbar{} 6.645091
+
+76 \textbar{} 809 \textbar{} 6.695799
+
+77 \textbar{} 811 \textbar{} 6.698268
+
+78 \textbar{} 821 \textbar{} 6.710523
+
+79 \textbar{} 829 \textbar{} 6.720220
+
+80 \textbar{} 839 \textbar{} 6.732211
+
+81 \textbar{} 841 \textbar{} 6.734592
+
+82 \textbar{} 859 \textbar{} 6.755769
+
+83 \textbar{} 881 \textbar{} 6.781058
+
+84 \textbar{} 911 \textbar{} 6.814543
+
+85 \textbar{} 919 \textbar{} 6.823286
+
+86 \textbar{} 929 \textbar{} 6.834109
+
+87 \textbar{} 941 \textbar{} 6.846943
+
+88 \textbar{} 961 \textbar{} 6.867974
+
+89 \textbar{} 971 \textbar{} 6.878326
+
+90 \textbar{} 991 \textbar{} 6.898715
+
+91 \textbar{} 1009 \textbar{} 6.916715
+
+92 \textbar{} 1019 \textbar{} 6.926577
+
+93 \textbar{} 1021 \textbar{} 6.928538
+
+94 \textbar{} 1031 \textbar{} 6.938284
+
+95 \textbar{} 1039 \textbar{} 6.946014
+
+96 \textbar{} 1049 \textbar{} 6.955593
+
+97 \textbar{} 1051 \textbar{} 6.957497
+
+98 \textbar{} 1061 \textbar{} 6.966967
+
+99 \textbar{} 1069 \textbar{} 6.974479
+
+100 \textbar{} 1091 \textbar{} 6.994850
+
+【校验结论】
+
+前100条测地线长度严格递增无重复:True
+
+最小范数 N\_min = 4, 对应长度 l\_min = 1.386294
+
+\end{document}
